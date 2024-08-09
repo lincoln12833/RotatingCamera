@@ -14,6 +14,10 @@ public class Camera extends LinearOpMode {
     private Servo cameraMount = null;
 
 
+    private final double THRESHOLD = .03;
+    private final double INCREMENT = 0.01;
+
+
     double target = .5;
     double bearingMin = 9999;
 
@@ -42,28 +46,35 @@ public class Camera extends LinearOpMode {
     public double getTargetPos(){
 
         double currentBearing = aprilTags.getBearing(7);
-
-        if (currentBearing < 996) {
-            target -= currentBearing * 0.00625;
-        }
-
-        if(currentBearing < bearingMin){
-            bearingMin = currentBearing;
+//
+//        if (currentBearing < 996) {
+//            target -= currentBearing * 0.00625;
+//        }
+//
+//        if(currentBearing < bearingMin){
+//            bearingMin = currentBearing;
+//        }
+//
+//        telemetry.addData("bearing", currentBearing);
+//        telemetry.addData("initTarget", target);
+//
+////        //if (currentBearing != 999) {
+////            if (target > 1) { //adjust values to ensure they are usable
+////                target -= 1;
+////            } else if (target < 0) {
+////                target += 1;
+////            }
+//       // }
+//
+//        telemetry.addData("target", target);
+//        telemetry.addData("minBearing", bearingMin);
+//        telemetry.update();
+        if(currentBearing > THRESHOLD) {
+            target += INCREMENT * (Math.abs(currentBearing) / currentBearing);
         }
 
         telemetry.addData("bearing", currentBearing);
-        telemetry.addData("initTarget", target);
-
-//        //if (currentBearing != 999) {
-//            if (target > 1) { //adjust values to ensure they are usable
-//                target -= 1;
-//            } else if (target < 0) {
-//                target += 1;
-//            }
-       // }
-
         telemetry.addData("target", target);
-        telemetry.addData("minBearing", bearingMin);
         telemetry.update();
 
         return target;
