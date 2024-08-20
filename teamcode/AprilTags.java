@@ -63,5 +63,7 @@ public class AprilTags {
                   .addProcessor(aprilTagProcessor)
 
                   .build();
+
+          aprilTagProcessor.setDecimation(3);
      }
 }

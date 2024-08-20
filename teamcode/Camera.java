@@ -14,8 +14,8 @@ public class Camera extends LinearOpMode {
     private Servo cameraMount = null;
 
 
-    private final double THRESHOLD = .03;
-    private final double INCREMENT = 0.01;
+    private final double THRESHOLD = 5.5;
+    private final double INCREMENT = 0.001;
 
 
     double target = .5;
@@ -36,11 +36,11 @@ public class Camera extends LinearOpMode {
 
         waitForStart();
 
-        while(opModeIsActive() && target == .5){
-            cameraMount.setPosition(Range.clip(getTargetPos(), 0, 1));
+        while(opModeIsActive()){
+            cameraMount.setPosition(getTargetPos());
         }
 
-        while(opModeIsActive()){}
+
     }
 
     public double getTargetPos(){
@@ -69,8 +69,8 @@ public class Camera extends LinearOpMode {
 //        telemetry.addData("target", target);
 //        telemetry.addData("minBearing", bearingMin);
 //        telemetry.update();
-        if(currentBearing > THRESHOLD) {
-            target += INCREMENT * (Math.abs(currentBearing) / currentBearing);
+        if(Math.abs(currentBearing) > THRESHOLD && currentBearing < 996) {
+            target -= INCREMENT * (Math.abs(currentBearing) / currentBearing);
         }
 
         telemetry.addData("bearing", currentBearing);
